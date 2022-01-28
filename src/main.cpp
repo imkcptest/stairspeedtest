@@ -161,6 +161,7 @@ void clientCheck()
 {
 #ifdef _WIN32
     std::string v2core_path = "tools\\clients\\v2ray.exe";
+    std::string xray_path = "tools\\clients\\xray.exe";
     std::string ssr_libev_path = "tools\\clients\\ssr-local.exe";
     std::string ss_libev_path = "tools\\clients\\ss-local.exe";
     std::string trojan_path = "tools\\clients\\trojan.exe";
