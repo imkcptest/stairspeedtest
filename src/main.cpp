@@ -228,6 +228,7 @@ int runClient(int client)
 {
 #ifdef _WIN32
     std::string v2core_path = "tools\\clients\\v2ray.exe -config config.json";
+    std::string xray_path = "tools\\clients\\xray.exe -config config.json";
     std::string ssr_libev_path = "tools\\clients\\ssr-local.exe -u -c config.json";
 
     std::string ss_libev_dir = "tools\\clients\\";
@@ -245,6 +246,10 @@ int runClient(int client)
     case SPEEDTEST_MESSAGE_FOUNDVMESS:
         writeLog(LOG_TYPE_INFO, "Starting up v2ray core...");
         runProgram(v2core_path, "", false);
+        break;
+    case SPEEDTEST_MESSAGE_FOUNDVLESS:
+        writeLog(LOG_TYPE_INFO, "Starting up xray core...");
+        runProgram(xray_path, "", false);
         break;
     case SPEEDTEST_MESSAGE_FOUNDSSR:
         if(ssr_libev)
@@ -279,7 +284,7 @@ int runClient(int client)
     }
 #else
     std::string v2core_path = "tools/clients/v2ray -config config.json";
-    std::string xray_path = "tools/clients/v2ray -config config.json";
+    std::string xray_path = "tools/clients/xray -config config.json";
     std::string ssr_libev_path = "tools/clients/ssr-local -u -c config.json";
     std::string trojan_path = "tools/clients/trojan -c config.json";
 
@@ -292,7 +297,7 @@ int runClient(int client)
         writeLog(LOG_TYPE_INFO, "Starting up v2ray core...");
         runProgram(v2core_path, "", false);
         break;
-    case SPEEDTEST_MESSAGE_FOUNDVMLSS:
+    case SPEEDTEST_MESSAGE_FOUNDVLESS:
         writeLog(LOG_TYPE_INFO, "Starting up xray core...");
         runProgram(xray_path, "", false);
         break;
@@ -317,6 +322,7 @@ int killClient(int client)
 {
 #ifdef _WIN32
     std::string v2core_name = "v2ray.exe";
+    std::string xray_name = "xray.exe";
     std::string ss_libev_name = "ss-local.exe";
     std::string ssr_libev_name = "ssr-local.exe";
     std::string ss_win_name = "shadowsocks-win.exe";
@@ -328,6 +334,10 @@ int killClient(int client)
     case SPEEDTEST_MESSAGE_FOUNDVMESS:
         writeLog(LOG_TYPE_INFO, "Killing v2ray core...");
         killProgram(v2core_name);
+        break;
+    case SPEEDTEST_MESSAGE_FOUNDVLESS:
+        writeLog(LOG_TYPE_INFO, "Killing xray core...");
+        killProgram(xray_name);
         break;
     case SPEEDTEST_MESSAGE_FOUNDSSR:
         if(ssr_libev)
@@ -537,6 +547,7 @@ void signalHandler(int signum)
     killClient(SPEEDTEST_MESSAGE_FOUNDSS);
     killClient(SPEEDTEST_MESSAGE_FOUNDSSR);
     killClient(SPEEDTEST_MESSAGE_FOUNDVMESS);
+    killClient(SPEEDTEST_MESSAGE_FOUNDVLESS);
     killClient(SPEEDTEST_MESSAGE_FOUNDTROJAN);
 #endif // __APPLE__
     killByHandle();

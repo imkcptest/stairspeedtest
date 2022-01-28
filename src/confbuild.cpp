@@ -179,7 +179,7 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
     base = replace_first(base, "?aid?", aid.empty() ? "0" : aid);
     base = replace_first(base, "?net?", net.empty() ? "tcp" : net);
     base = replace_first(base, "?cipher?", cipher);
-    base = replace_first(base, "?flow?", flow)
+    base = replace_first(base, "?flow?", flow);
     switch(hash_(net))
     {
         case "ws"_hash:
@@ -236,13 +236,10 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
         base = replace_first(base, "?tcpset?", tcpset);
     }
 
-    if(!sni.empty())
-        host = sni;
-
     if(host.size())
     {
         std::string tlsset = tlsset_vless;
-        tlsset = replace_first(tlsset, "?serverName?", host);
+        tlsset = replace_first(tlsset, "?serverName?", !sni.empty() ? sni : host);
         scv.define(true);
         tlsset = replace_first(tlsset, "?verify?", scv ? "true" : "false");
         base = replace_first(base, "?tlsset?", tlsset);
