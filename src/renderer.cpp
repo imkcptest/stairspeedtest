@@ -433,21 +433,21 @@ std::string exportRender(std::string resultpath, std::vector<nodeInfo> &nodes, b
         total_width += nattype_width;
 
     //generating information
-    std::string gentime = "Generated at " + getTime(3);
-    std::string traffic = "Traffic used : " + speedCalc((double)total_traffic) + ". ";
+    std::string gentime = "创建时间：" + getTime(3);
+    std::string traffic = "流量消耗：" + speedCalc((double)total_traffic) + ". ";
     std::string about = "By Stair Speedtest Reborn " VERSION ".";
-    std::string title = "  Stair Speedtest Reborn Result Table ( " VERSION " )  ";
+    std::string title = "  品云在线测速 ( " VERSION " )  ";
     //SSRSpeed style
     if(export_as_ssrspeed)
     {
-        traffic += "Time used: " + secondToString(test_duration) + ". Online Node(s) : [" + std::to_string(onlines) + "/" + std::to_string(node_count) + "]";
-        title = "  SSRSpeed Result Table ( v2.7.2 )  ";
+        traffic += "测速耗时：" + secondToString(test_duration) + ". 在线节点数：[" + std::to_string(onlines) + "/" + std::to_string(node_count) + "]";
+        title = "  品云在线测速 ( " VERSION " )  ";
     }
     else
     {
         if(export_as_new_style)
-            traffic += "Time used : " + secondToString(test_duration) + ". ";
-        traffic += "Working Node(s) : [" + std::to_string(onlines) + "/" + std::to_string(node_count) + "]";
+            traffic += "测速耗时：" + secondToString(test_duration) + ". ";
+        traffic += "在线节点数：[" + std::to_string(onlines) + "/" + std::to_string(node_count) + "]";
     }
 
     final_width = total_width;
@@ -669,8 +669,8 @@ std::string exportRender(std::string resultpath, vector<nodeInfo> nodes, bool ex
         total_width += maxSpeed_width;
 
     //generating information
-    std::string gentime = "Generated at "+getTime(3);
-    std::string traffic = "Traffic used : "+speedCalc((double)total_traffic)+". Working Node(s) : ["+std::to_string(onlines)+"/"+std::to_string(node_count)+"]";
+    std::string gentime = "创建时间："+getTime(3);
+    std::string traffic = "流量消耗："+speedCalc((double)total_traffic)+". 在线节点数：["+std::to_string(onlines)+"/"+std::to_string(node_count)+"]";
     std::string about = "By Stair Speedtest Reborn " VERSION ".";
 
     final_width = max(getWidth(&png, font, fontsize, gentime) + center_align_offset, total_width);

@@ -1212,8 +1212,15 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
         vless.erase(pos);
     }
     const std::string stdvless_matcher = R"(^([\da-f]{4}(?:[\da-f]{4}-){4}[\da-f]{12})@(.+):(\d+)(?:\/?\?(.*))?$)";
-    if(regGetMatch(vless, stdvless_matcher, 8, 0, &net, &tls, &id, &add, &port, &addition))
+    if(regGetMatch(vless, stdvless_matcher, 5, 0, &id, &add, &port, &addition))
         return;
+
+    flow = getUrlArg(addition,"flow");
+    sni = getUrlArg(addition, "sni");
+    tls = getUrlArg(addition,"security");
+    net = getUrlArg(addition,"headerType");
+    if(net.empty())
+        net = getUrlArg(addition,"type");
 
     switch(hash_(net))
     {
@@ -1222,7 +1229,9 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
             type = getUrlArg(addition, "type");
             break;
         case "http"_hash:
+        case "h2"_hash:
         case "ws"_hash:
+        case "grpc"_hash:
             host = getUrlArg(addition, "host");
             path = getUrlArg(addition, "path");
             break;
@@ -1240,12 +1249,12 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
     if(remarks.empty())
         remarks = add + ":" + port;
 
-    node.linkType = SPEEDTEST_MESSAGE_FOUNDVMESS;
-    node.group = V2RAY_DEFAULT_GROUP;
+    node.linkType = SPEEDTEST_MESSAGE_FOUNDVLESS;
+    node.group = XRAY_DEFAULT_GROUP;
     node.remarks = remarks;
     node.server = add;
     node.port = to_int(port, 0);
-    node.proxyStr = vlessConstruct(node.group, remarks, add, port, type, id, aid, net, "auto", path, host, "", tls);
+    node.proxyStr = vlessConstruct(node.group, remarks, add, port, type, id, aid, net, "auto", flow, sni, path, host, "", tls);
     return;
 }
 
