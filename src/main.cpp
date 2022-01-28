@@ -381,7 +381,7 @@ int killClient(int client)
         writeLog(LOG_TYPE_INFO, "Killing v2ray core...");
         killProgram(v2core_name);
         break;
-    case SPEEDTEST_MESSAGE_FOUNDVMLSS:
+    case SPEEDTEST_MESSAGE_FOUNDVLESS:
         writeLog(LOG_TYPE_INFO, "Killing xray core...");
         killProgram(xray_name);
         break;
