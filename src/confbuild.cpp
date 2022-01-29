@@ -22,7 +22,7 @@ std::string kcpset_vmess = R"({"mtu":1350,"tti":50,"uplinkCapacity":12,"downlink
 std::string h2set_vmess = R"({"path":"?path?","host":[?host?]})";
 std::string grpcset_vmess = R"({"serverName":"?serverName?","multiMode":false})";
 std::string quicset_vmess = R"({"security":"?host?","key":"?path?","header":{"type":"?type?"}})";
-std::string base_vless = R"({"inbounds":[{"port":?localport?,"listen":"127.0.0.1","protocol":"socks","settings":{"udp":true}}],"outbounds":[{"tag":"proxy","protocol":"vless","settings":{"vnext":[{"address":"?add?","port":?port?,"users":[{"id":"?id?","alterId":?aid?,"email":"t@t.tt","security":"?cipher?","encryption": "none","flow": "?flow?"}]}]},"streamSettings":{"network":"?net?","security":"?tls?","?tlsSettings?":?tlsset?,"tcpSettings":?tcpset?,"wsSettings":?wsset?,"kcpSettings":?kcpset?,"httpSettings":?h2set?,"quicSettings":?quicset?,"grpcSettings":?grpcset?},"mux":{"enabled":false,"concurrency": -1
+std::string base_vless = R"({"inbounds":[{"port":?localport?,"listen":"127.0.0.1","protocol":"socks","settings":{"udp":true}}],"outbounds":[{"tag":"proxy","protocol":"vless","settings":{"vnext":[{"address":"?add?","port":?port?,"users":[{"id":"?id?","alterId":?aid?,"email":"t@t.tt","security":"?cipher?","encryption": "none","flow": "?flow?"}]}]},"streamSettings":{"network":"?net?","security":"?tls?","?tlsSettings?":?tlsset?,"tcpSettings":?tcpset?,"wsSettings":?wsset?,"kcpSettings":?kcpset?,"httpSettings":?h2set?,"quicSettings":?quicset?,"grpcSettings":?grpcset?},"mux":{"enabled":?enabled?,"concurrency": ?concurrency?
 }}],"routing":{"domainStrategy":"IPIfNonMatch"}})";
 std::string wsset_vless = R"({"connectionReuse":true,"path":"?path?","headers":{"Host":"?host?"?edge?}})";
 std::string tcpset_vless = R"({"connectionReuse":true,"header":{"type":"?type?","request":{"version":"1.1","method":"GET","path":["?path?"],"headers":{"Host":["?host?"],"User-Agent":["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36","Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_2 like Mac OS X) AppleWebKit/601.1 (KHTML, like Gecko) CriOS/53.0.2785.109 Mobile/14A456 Safari/601.1.46"],"Accept-Encoding":["gzip, deflate"],"Connection":["keep-alive"],"Pragma":"no-cache"}}}})";
@@ -217,6 +217,8 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
             grpcset = replace_first(grpcset, "?serverName?", path);
             grpcset = replace_first(grpcset, "?multiMode?", mode == "multi" ? "true" : "false");
             base = replace_first(base, "?grpcset?", grpcset);
+            base = replace_first(base,"?enabled?",mode == "multi" ? "true" : "false" );
+            base = replace_first(base,"?concurrency?",mode == "multi" ? "8" : "-1" );
             break;
         }
         case "quic"_hash:
