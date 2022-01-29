@@ -20,7 +20,7 @@ std::string tcpset_vmess = R"({"connectionReuse":true,"header":{"type":"?type?",
 std::string tlsset_vmess = R"({"serverName":"?serverName?","allowInsecure":?verify?,"allowInsecureCiphers":true})";
 std::string kcpset_vmess = R"({"mtu":1350,"tti":50,"uplinkCapacity":12,"downlinkCapacity":100,"congestion":false,"readBufferSize":2,"writeBufferSize":2,"header":{"type":"?type?"}})";
 std::string h2set_vmess = R"({"path":"?path?","host":[?host?]})";
-std::string grpcset_vmess = R"({"serverName":"?serverName?","multiMode":false)";
+std::string grpcset_vmess = R"({"serverName":"?serverName?","multiMode":false})";
 std::string quicset_vmess = R"({"security":"?host?","key":"?path?","header":{"type":"?type?"}})";
 std::string base_vless = R"({"inbounds":[{"port":?localport?,"listen":"127.0.0.1","protocol":"socks","settings":{"udp":true}}],"outbounds":[{"tag":"proxy","protocol":"vless","settings":{"vnext":[{"address":"?add?","port":?port?,"users":[{"id":"?id?","alterId":?aid?,"email":"t@t.tt","security":"?cipher?","flow": "?flow?"}]}]},"streamSettings":{"network":"?net?","security":"?tls?","?tlsSettings?":?tlsset?,"tcpSettings":?tcpset?,"wsSettings":?wsset?,"kcpSettings":?kcpset?,"httpSettings":?h2set?,"quicSettings":?quicset?,"grpcSettings":?grpcset?},"mux":{"enabled":false}}],"routing":{"domainStrategy":"IPIfNonMatch"}})";
 std::string wsset_vless = R"({"connectionReuse":true,"path":"?path?","headers":{"Host":"?host?"?edge?}})";
@@ -28,7 +28,7 @@ std::string tcpset_vless = R"({"connectionReuse":true,"header":{"type":"?type?",
 std::string tlsset_vless = R"({"serverName":"?serverName?","allowInsecure":?verify?,"allowInsecureCiphers":true})";
 std::string kcpset_vless = R"({"mtu":1350,"tti":50,"uplinkCapacity":12,"downlinkCapacity":100,"congestion":false,"readBufferSize":2,"writeBufferSize":2,"header":{"type":"?type?"}})";
 std::string h2set_vless = R"({"path":"?path?","host":[?host?]})";
-std::string grpcset_vless = R"({"serverName":"?serverName?","multiMode":?multiMode?)";
+std::string grpcset_vless = R"({"serverName":"?serverName?","multiMode":?multiMode?})";
 std::string quicset_vless = R"({"security":"?host?","key":"?path?","header":{"type":"?type?"}})";
 std::string base_trojan = R"({"run_type":"client","local_addr":"127.0.0.1","local_port":?localport?,"remote_addr":"?server?","remote_port":?port?,"password":["?password?"],"ssl":{"verify":?verify?,"verify_hostname":?verifyhost?,"sni":"?host?"},"tcp":{"reuse_port":true}})";
 
