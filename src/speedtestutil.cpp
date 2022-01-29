@@ -114,7 +114,7 @@ void explodeVmessConf(std::string content, const std::string &custom_port, bool 
     nodeInfo node;
     Document json;
     rapidjson::Value nodejson, settings;
-    std::string group, ps, add, port, type, id, aid, net, path, host, edge, tls, cipher, subid;
+    std::string group, ps, add, port, type, id, aid, net, mode, path, host, edge, tls, cipher, subid;
     tribool udp, tfo, scv;
     int configType, index = nodes.size();
     std::map<std::string, std::string> subdata;
@@ -188,7 +188,7 @@ void explodeVmessConf(std::string content, const std::string &custom_port, bool 
                 node.remarks = add + ":" + port;
                 node.server = add;
                 node.port = to_int(port, 1);
-                node.proxyStr = vmessConstruct(node.group, node.remarks, add, port, type, id, aid, net, cipher, path, host, edge, tls, udp, tfo, scv);
+                node.proxyStr = vmessConstruct(node.group, node.remarks, add, port, type, id, aid, net, cipher, path, mode, host, edge, tls, udp, tfo, scv);
                 nodes.emplace_back(std::move(node));
                 node = nodeInfo();
             }
@@ -844,7 +844,7 @@ void explodeQuan(const std::string &quan, const std::string &custom_port, nodeIn
 void explodeNetch(std::string netch, bool ss_libev, bool ssr_libev, const std::string &custom_port, nodeInfo &node)
 {
     Document json;
-    std::string type, group, remark, address, port, username, password, method, plugin, pluginopts, protocol, protoparam, obfs, obfsparam, id, aid, transprot, faketype, host, edge, path, tls;
+    std::string type, group, remark, address, port, username, password, method, plugin, pluginopts, protocol, protoparam, obfs, obfsparam, id, aid, transprot, faketype, mode, host, edge, path, tls;
     tribool udp, tfo, scv;
     netch = urlsafe_base64_decode(netch.substr(8));
 
@@ -913,7 +913,7 @@ void explodeNetch(std::string netch, bool ss_libev, bool ssr_libev, const std::s
         if(group.empty())
             group = V2RAY_DEFAULT_GROUP;
         node.group = group;
-        node.proxyStr = vmessConstruct(group, remark, address, port, faketype, id, aid, transprot, method, path, host, edge, tls, udp, tfo, scv);
+        node.proxyStr = vmessConstruct(group, remark, address, port, faketype, id, aid, transprot, method, mode, path, host, edge, tls, udp, tfo, scv);
         break;
     case "Socks5"_hash:
         username = GetMember(json, "Username");
@@ -961,7 +961,7 @@ void explodeNetch(std::string netch, bool ss_libev, bool ssr_libev, const std::s
 void explodeClash(Node yamlnode, const std::string &custom_port, std::vector<nodeInfo> &nodes, bool ss_libev, bool ssr_libev)
 {
     std::string proxytype, ps, server, port, cipher, group, password; //common
-    std::string type = "none", id, aid = "0", net = "tcp", path, host, edge, tls; //vmess
+    std::string type = "none", id, aid = "0", net = "tcp", mode, path, host, edge, tls; //vmess
     std::string plugin, pluginopts, pluginopts_mode, pluginopts_host, pluginopts_mux; //ss
     std::string protocol, protoparam, obfs, obfsparam; //ssr
     std::string user; //socks
@@ -1005,7 +1005,7 @@ void explodeClash(Node yamlnode, const std::string &custom_port, std::vector<nod
             tls = safe_as<std::string>(singleproxy["tls"]) == "true" ? "tls" : "";
 
             node.linkType = SPEEDTEST_MESSAGE_FOUNDVMESS;
-            node.proxyStr = vmessConstruct(group, ps, server, port, "", id, aid, net, cipher, path, host, edge, tls, udp, tfo, scv);
+            node.proxyStr = vmessConstruct(group, ps, server, port, "", id, aid, net, cipher, mode, path, host, edge, tls, udp, tfo, scv);
             break;
         case "ss"_hash:
             group = SS_DEFAULT_GROUP;
