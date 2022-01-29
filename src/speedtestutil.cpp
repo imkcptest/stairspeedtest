@@ -1233,7 +1233,7 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
         case "ws"_hash:
         case "grpc"_hash:
             host = getUrlArg(addition, "host");
-            path = getUrlArg(addition, "path");
+            path = getUrlArg(addition, "serviceName");
             mode = getUrlArg(addition, "mode");
             break;
         case "quic"_hash:
