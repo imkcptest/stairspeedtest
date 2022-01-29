@@ -215,10 +215,8 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
         {
             std::string grpcset = grpcset_vless;
             grpcset = replace_first(grpcset, "?serverName?", path);
-            grpcset = replace_first(grpcset, "?multiMode?", mode == "multi" ? "true" : "false");
+            grpcset = replace_first(grpcset, "?multiMode?", "true");
             base = replace_first(base, "?grpcset?", grpcset);
-            base = replace_first(base,"?enabled?",mode == "multi" ? "true" : "false" );
-            base = replace_first(base,"?concurrency?",mode == "multi" ? "8" : "-1" );
             break;
         }
         case "quic"_hash:
@@ -261,6 +259,8 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
     base = replace_first(base, "?h2set?", "null");
     base = replace_first(base, "?grpcset?", "null");
     base = replace_first(base, "?quicset?", "null");
+    base = replace_first(base, "?enabled?", mode.size() ? "true" : "false" );
+    base = replace_first(base, "?concurrency?", mode == "multi" ? "8" : "-1" );
 
     return base;
 }
