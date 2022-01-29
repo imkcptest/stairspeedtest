@@ -2134,7 +2134,7 @@ void explodeSub(std::string sub, bool sslibev, bool ssrlibev, const std::string 
     if(!processed)
     {
         sub = urlsafe_base64_decode(trim(sub));
-        if(regFind(sub, "(vmess|shadowsocks|http|trojan)\\s*?="))
+        if(regFind(sub, "(vmess|vless|shadowsocks|http|trojan)\\s*?="))
         {
             if(explodeSurge(sub, custom_port, nodes, sslibev))
                 return;
