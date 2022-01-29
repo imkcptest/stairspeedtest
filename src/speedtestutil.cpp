@@ -2076,7 +2076,7 @@ void explode(const std::string &link, bool sslibev, bool ssrlibev, const std::st
     else if(strFind(link, "vmess://") || strFind(link, "vmess1://"))
         explodeVmess(link, custom_port, node);
     else if(strFind(link, "vless://") || strFind(link, "vless1://"))
-        explodeVmess(link, custom_port, node);
+        explodeVless(link, custom_port, node);
     else if(strFind(link, "ss://"))
         explodeSS(link, sslibev, custom_port, node);
     else if(strFind(link, "socks://") || strFind(link, "https://t.me/socks") || strFind(link, "tg://socks"))
