@@ -188,7 +188,7 @@ void explodeVmessConf(std::string content, const std::string &custom_port, bool 
                 node.remarks = add + ":" + port;
                 node.server = add;
                 node.port = to_int(port, 1);
-                node.proxyStr = vmessConstruct(node.group, node.remarks, add, port, type, id, aid, net, cipher, path, mode, host, edge, tls, udp, tfo, scv);
+                node.proxyStr = vmessConstruct(node.group, node.remarks, add, port, type, id, aid, net, cipher, mode, path, host, edge, tls, udp, tfo, scv);
                 nodes.emplace_back(std::move(node));
                 node = nodeInfo();
             }
@@ -242,7 +242,7 @@ void explodeVmessConf(std::string content, const std::string &custom_port, bool 
             json["vmess"][i]["security"] >> cipher;
             group = V2RAY_DEFAULT_GROUP;
             node.linkType = SPEEDTEST_MESSAGE_FOUNDVMESS;
-            node.proxyStr = vmessConstruct(group, ps, add, port, type, id, aid, net, cipher, path, host, "", tls, udp, tfo, scv);
+            node.proxyStr = vmessConstruct(group, ps, add, port, type, id, aid, net, cipher, mode, path, host, "", tls, udp, tfo, scv);
             break;
         case 3: //ss config
             json["vmess"][i]["id"] >> id;
@@ -781,7 +781,7 @@ void explodeTrojan(std::string trojan, const std::string &custom_port, nodeInfo 
 void explodeQuan(const std::string &quan, const std::string &custom_port, nodeInfo &node)
 {
     std::string strTemp, itemName, itemVal;
-    std::string group = V2RAY_DEFAULT_GROUP, ps, add, port, cipher, type = "none", id, aid = "0", net = "tcp", path, host, edge, tls;
+    std::string group = V2RAY_DEFAULT_GROUP, ps, add, port, cipher, mode, type = "none", id, aid = "0", net = "tcp", path, host, edge, tls;
     string_array configs, vArray, headers;
     strTemp = regReplace(quan, "(.*?) = (.*)", "$1,$2");
     configs = split(strTemp, ",");
@@ -837,7 +837,7 @@ void explodeQuan(const std::string &quan, const std::string &custom_port, nodeIn
         node.remarks = ps;
         node.server = add;
         node.port = to_int(port, 1);
-        node.proxyStr = vmessConstruct(group, ps, add, port, type, id, aid, net, cipher, path, host, edge, tls);
+        node.proxyStr = vmessConstruct(group, ps, add, port, type, id, aid, net, cipher, mode, path, host, edge, tls);
     }
 }
 
