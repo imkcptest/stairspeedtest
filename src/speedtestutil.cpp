@@ -1200,7 +1200,7 @@ void explodeStdVMess(std::string vmess, const std::string &custom_port, nodeInfo
 
 void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo &node)
 {
-    std::string add, port, type, id, aid, net, flow, sni, path, host, tls, remarks;
+    std::string add, port, type, id, aid, net, hType, flow, sni, path, host, tls, remarks;
     std::string addition;
     vless = vless.substr(8);
     string_size pos;
@@ -1215,12 +1215,9 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
     if(regGetMatch(vless, stdvless_matcher, 5, 0, &id, &add, &port, &addition))
         return;
 
-    flow = getUrlArg(addition,"flow");
-    sni = getUrlArg(addition, "sni");
     tls = getUrlArg(addition,"security");
-    net = getUrlArg(addition,"headerType");
-    if(net.empty())
-        net = getUrlArg(addition,"type");
+    hType = getUrlArg(addition,"headerType");
+    net = !hType.empty() && hType != "none" ? hType : getUrlArg(addition,"type");
 
     switch(hash_(net))
     {
@@ -1243,6 +1240,9 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
         default:
             return;
     }
+
+    flow = getUrlArg(addition,"flow");
+    sni = getUrlArg(addition, "sni");
 
     if(!custom_port.empty())
         port = custom_port;
