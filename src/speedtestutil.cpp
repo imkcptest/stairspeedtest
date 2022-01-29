@@ -1200,7 +1200,7 @@ void explodeStdVMess(std::string vmess, const std::string &custom_port, nodeInfo
 
 void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo &node)
 {
-    std::string add, port, type, id, aid, net, hType, flow, sni, path, host, tls, remarks;
+    std::string add, port, type, id, aid, net, hType, flow, sni, mode, path, host, tls, remarks;
     std::string addition;
     vless = vless.substr(8);
     string_size pos;
@@ -1231,6 +1231,7 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
         case "grpc"_hash:
             host = getUrlArg(addition, "host");
             path = getUrlArg(addition, "path");
+            mode = getUrlArg(addition, "mode");
             break;
         case "quic"_hash:
             type = getUrlArg(addition, "security");
@@ -1254,7 +1255,7 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
     node.remarks = remarks;
     node.server = add;
     node.port = to_int(port, 0);
-    node.proxyStr = vlessConstruct(node.group, remarks, add, port, type, id, aid, net, "auto", flow, sni, path, host, "", tls);
+    node.proxyStr = vlessConstruct(node.group, remarks, add, port, type, id, aid, net, "auto", flow, sni, mode, path, host, "", tls);
     return;
 }
 

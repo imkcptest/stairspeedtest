@@ -169,7 +169,7 @@ std::string vmessConstruct(const std::string &group, const std::string &remarks,
     return base;
 }
 
-std::string vlessConstruct(const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &flow, const std::string &sni, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls, tribool udp, tribool tfo, tribool scv, tribool tls13)
+std::string vlessConstruct(const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &flow, const std::string &sni, const std::string &mode, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls, tribool udp, tribool tfo, tribool scv, tribool tls13)
 {
     std::string base = base_vless;
     base = replace_first(base, "?localport?", std::to_string(socksport));
@@ -180,6 +180,7 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
     base = replace_first(base, "?net?", net.empty() ? "tcp" : net);
     base = replace_first(base, "?cipher?", cipher);
     base = replace_first(base, "?flow?", flow);
+
     switch(hash_(net))
     {
         case "ws"_hash:
@@ -212,6 +213,7 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
         {
             std::string grpcset = grpcset_vless;
             grpcset = replace_first(grpcset, "?serverName?", path);
+            grpcset = replace_first(grpcset, "?multiMode?", mode == "multi" ? "true" : "false");
             base = replace_first(base, "?grpcset?", grpcset);
             break;
         }
@@ -227,6 +229,7 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
         case "tcp"_hash:
             break;
     }
+
     if(type == "http")
     {
         std::string tcpset = tcpset_vless;
@@ -236,7 +239,7 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
         base = replace_first(base, "?tcpset?", tcpset);
     }
 
-    if(host.size())
+    if(host.size() || sni.size())
     {
         std::string tlsset = tlsset_vless;
         tlsset = replace_first(tlsset, "?serverName?", !sni.empty() ? sni : host);
