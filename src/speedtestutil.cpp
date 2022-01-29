@@ -29,7 +29,7 @@ std::string modSSMD5 = "f7653207090ce3389115e9c88541afe0";
 
 void explodeVmess(std::string vmess, const std::string &custom_port, nodeInfo &node)
 {
-    std::string version, ps, add, port, type, id, aid, net, path, host, tls;
+    std::string version, ps, add, port, type, id, aid, net, mode, path, host, tls;
     Document jsondata;
     std::vector<std::string> vArray;
     if(regMatch(vmess, "vmess://(.*?)@(.*)"))
@@ -69,6 +69,7 @@ void explodeVmess(std::string vmess, const std::string &custom_port, nodeInfo &n
     GetMember(jsondata, "id", id);
     GetMember(jsondata, "aid", aid);
     GetMember(jsondata, "net", net);
+    GetMember(jsondata, "mode", mode);
     GetMember(jsondata, "tls", tls);
 
     GetMember(jsondata, "host", host);
@@ -96,7 +97,7 @@ void explodeVmess(std::string vmess, const std::string &custom_port, nodeInfo &n
     node.remarks = ps;
     node.server = add;
     node.port = to_int(port, 1);
-    node.proxyStr = vmessConstruct(node.group, ps, add, port, type, id, aid, net, "auto", path, host, "", tls);
+    node.proxyStr = vmessConstruct(node.group, ps, add, port, type, id, aid, net, "auto", mode, path, host, "", tls);
 }
 
 void explodeVless(std::string vless, const std::string &custom_port, nodeInfo &node)
@@ -1149,7 +1150,7 @@ void explodeClash(Node yamlnode, const std::string &custom_port, std::vector<nod
 
 void explodeStdVMess(std::string vmess, const std::string &custom_port, nodeInfo &node)
 {
-    std::string add, port, type, id, aid, net, path, host, tls, remarks;
+    std::string add, port, type, id, aid, net, mode, path, host, tls, remarks;
     std::string addition;
     vmess = vmess.substr(8);
     string_size pos;
@@ -1172,8 +1173,10 @@ void explodeStdVMess(std::string vmess, const std::string &custom_port, nodeInfo
         break;
     case "http"_hash:
     case "ws"_hash:
+    case "grpc"_hash:
         host = getUrlArg(addition, "host");
         path = getUrlArg(addition, "path");
+        mode = getUrlArg(addition, "mode");
         break;
     case "quic"_hash:
         type = getUrlArg(addition, "security");
@@ -1194,7 +1197,7 @@ void explodeStdVMess(std::string vmess, const std::string &custom_port, nodeInfo
     node.remarks = remarks;
     node.server = add;
     node.port = to_int(port, 0);
-    node.proxyStr = vmessConstruct(node.group, remarks, add, port, type, id, aid, net, "auto", path, host, "", tls);
+    node.proxyStr = vmessConstruct(node.group, remarks, add, port, type, id, aid, net, "auto", mode, path, host, "", tls);
     return;
 }
 
@@ -1261,7 +1264,7 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
 
 void explodeShadowrocket(std::string rocket, const std::string &custom_port, nodeInfo &node)
 {
-    std::string add, port, type, id, aid, net = "tcp", path, host, tls, cipher, remarks;
+    std::string add, port, type, id, aid, net = "tcp", mode, path, host, tls, cipher, remarks;
     std::string obfs; //for other style of link
     std::string addition;
     rocket = rocket.substr(8);
@@ -1307,12 +1310,12 @@ void explodeShadowrocket(std::string rocket, const std::string &custom_port, nod
     node.remarks = remarks;
     node.server = add;
     node.port = to_int(port, 0);
-    node.proxyStr = vmessConstruct(node.group, remarks, add, port, type, id, aid, net, cipher, path, host, "", tls);
+    node.proxyStr = vmessConstruct(node.group, remarks, add, port, type, id, aid, net, cipher, mode, path, host, "", tls);
 }
 
 void explodeKitsunebi(std::string kit, const std::string &custom_port, nodeInfo &node)
 {
-    std::string add, port, type, id, aid = "0", net = "tcp", path, host, tls, cipher = "auto", remarks;
+    std::string add, port, type, id, aid = "0", net = "tcp", mode, path, host, tls, cipher = "auto", remarks;
     std::string addition;
     string_size pos;
     kit = kit.substr(9);
@@ -1352,7 +1355,7 @@ void explodeKitsunebi(std::string kit, const std::string &custom_port, nodeInfo 
     node.remarks = remarks;
     node.server = add;
     node.port = to_int(port, 0);
-    node.proxyStr = vmessConstruct(node.group, remarks, add, port, type, id, aid, net, cipher, path, host, "", tls);
+    node.proxyStr = vmessConstruct(node.group, remarks, add, port, type, id, aid, net, cipher, mode, path, host, "", tls);
 }
 
 bool explodeSurge(std::string surge, const std::string &custom_port, std::vector<nodeInfo> &nodes, bool libev)
@@ -1388,7 +1391,7 @@ bool explodeSurge(std::string surge, const std::string &custom_port, std::vector
     {
         std::string remarks, server, port, method, username, password; //common
         std::string plugin, pluginopts, pluginopts_mode, pluginopts_host, mod_url, mod_md5; //ss
-        std::string id, net, tls, host, edge, path; //v2
+        std::string id, net, mode, tls, host, edge, path; //v2
         std::string protocol, protoparam; //ssr
         std::string itemName, itemVal, config;
         std::vector<std::string> configs, vArray, headers, header;
@@ -1579,7 +1582,7 @@ bool explodeSurge(std::string surge, const std::string &custom_port, std::vector
 
             node.linkType = SPEEDTEST_MESSAGE_FOUNDVMESS;
             node.group = V2RAY_DEFAULT_GROUP;
-            node.proxyStr = vmessConstruct(node.group, remarks, server, port, "", id, "0", net, method, path, host, edge, tls, udp, tfo, scv, tls13);
+            node.proxyStr = vmessConstruct(node.group, remarks, server, port, "", id, "0", net, method, mode, path, host, edge, tls, udp, tfo, scv, tls13);
             break;
         case "http"_hash: //http proxy
             node.linkType = SPEEDTEST_MESSAGE_FOUNDHTTP;
@@ -1797,7 +1800,7 @@ bool explodeSurge(std::string surge, const std::string &custom_port, std::vector
 
                 node.linkType = SPEEDTEST_MESSAGE_FOUNDVMESS;
                 node.group = V2RAY_DEFAULT_GROUP;
-                node.proxyStr = vmessConstruct(node.group, remarks, server, port, "", id, "0", net, method, path, host, "", tls, udp, tfo, scv, tls13);
+                node.proxyStr = vmessConstruct(node.group, remarks, server, port, "", id, "0", net, method, mode, path, host, "", tls, udp, tfo, scv, tls13);
                 break;
             case "trojan"_hash: //quantumult x style trojan link
                 server = trim(configs[0].substr(0, configs[0].rfind(":")));

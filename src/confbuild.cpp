@@ -82,7 +82,7 @@ std::string replace_first(std::string str, const std::string &old_value, const s
     return str.replace(pos, old_value.size(), new_value);
 }
 
-std::string vmessConstruct(const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls, tribool udp, tribool tfo, tribool scv, tribool tls13)
+std::string vmessConstruct(const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &mode, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls, tribool udp, tribool tfo, tribool scv, tribool tls13)
 {
     std::string base = base_vmess;
     base = replace_first(base, "?localport?", std::to_string(socksport));
@@ -124,6 +124,7 @@ std::string vmessConstruct(const std::string &group, const std::string &remarks,
         {
             std::string grpcset = grpcset_vmess;
             grpcset = replace_first(grpcset, "?serverName?", path);
+            grpcset = replace_first(grpcset, "?multiMode?", mode == "multi" ? "true" : "false");
             base = replace_first(base, "?grpcset?", grpcset);
             break;
         }
