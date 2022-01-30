@@ -1223,11 +1223,14 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
     {
         case "tcp"_hash:
         case "kcp"_hash:
-        case "h2"_hash:
         case "ws"_hash:
-        case "grpc"_hash:
+        case "h2"_hash:
             type = getUrlArg(addition, "headerType");
             host = getUrlArg(addition, "host");
+            path = getUrlArg(addition, "path");
+            break;
+        case "grpc"_hash:
+            type = getUrlArg(addition, "headerType");
             path = getUrlArg(addition, "serviceName");
             mode = getUrlArg(addition, "mode");
             break;
@@ -1236,6 +1239,7 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
             host = getUrlArg(addition, "quicSecurity");
             path = getUrlArg(addition, "key");
             break;
+
         default:
             return;
     }
