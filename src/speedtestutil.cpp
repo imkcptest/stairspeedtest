@@ -1150,7 +1150,7 @@ void explodeClash(Node yamlnode, const std::string &custom_port, std::vector<nod
 
 void explodeStdVMess(std::string vmess, const std::string &custom_port, nodeInfo &node)
 {
-    std::string add, port, type, id, aid, net, mode, path, host, tls, remarks;
+    std::string add, port, type, id, aid, net, hType, mode, path, host, tls, remarks;
     std::string addition;
     vmess = vmess.substr(8);
     string_size pos;
@@ -1169,11 +1169,9 @@ void explodeStdVMess(std::string vmess, const std::string &custom_port, nodeInfo
     {
     case "tcp"_hash:
     case "kcp"_hash:
-        type = getUrlArg(addition, "type");
-        break;
-    case "http"_hash:
     case "ws"_hash:
     case "grpc"_hash:
+        type = getUrlArg(addition, "type");
         host = getUrlArg(addition, "host");
         path = getUrlArg(addition, "path");
         mode = getUrlArg(addition, "mode");
@@ -1219,26 +1217,23 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
         return;
 
     tls = getUrlArg(addition,"security");
-    hType = getUrlArg(addition,"headerType");
-    net = !hType.empty() && hType != "none" ? hType : getUrlArg(addition,"type");
+    net = getUrlArg(addition,"type");
 
     switch(hash_(net))
     {
         case "tcp"_hash:
         case "kcp"_hash:
-            type = getUrlArg(addition, "type");
-            break;
-        case "http"_hash:
         case "h2"_hash:
         case "ws"_hash:
         case "grpc"_hash:
+            type = getUrlArg(addition, "headerType");
             host = getUrlArg(addition, "host");
             path = getUrlArg(addition, "serviceName");
             mode = getUrlArg(addition, "mode");
             break;
         case "quic"_hash:
-            type = getUrlArg(addition, "security");
-            host = getUrlArg(addition, "type");
+            type = getUrlArg(addition, "headerType");
+            host = getUrlArg(addition, "quicSecurity");
             path = getUrlArg(addition, "key");
             break;
         default:

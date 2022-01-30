@@ -14,7 +14,8 @@ std::string config_ss_libev = R"({"server":"?server?","server_port":?port?,"pass
 std::string base_ssr_win = R"({"configs":[?config?],"index":0,"random":true,"sysProxyMode":1,"shareOverLan":false,"localPort":?localport?,"localAuthPassword":null,"localDnsServer":"","dnsServer":"","reconnectTimes":2,"balanceAlgorithm":"LowException","randomInGroup":false,"TTL":0,"connectTimeout":5,"proxyRuleMode":2,"proxyEnable":false,"pacDirectGoProxy":false,"proxyType":0,"proxyHost":null,"proxyPort":0,"proxyAuthUser":null,"proxyAuthPass":null,"proxyUserAgent":null,"authUser":null,"authPass":null,"autoBan":false,"checkSwitchAutoCloseAll":false,"logEnable":false,"sameHostForSameTarget":false,"keepVisitTime":180,"isHideTips":false,"nodeFeedAutoUpdate":true,"serverSubscribes":[],"token":{},"portMap":{}})";
 std::string config_ssr_win = R"({"remarks":"?remarks?","id":"18C4949EBCFE46687AE4A7645725D35F","server":"?server?","server_port":?port?,"server_udp_port":0,"password":"?password?","method":"?method?","protocol":"?protocol?","protocolparam":"?protoparam?","obfs":"?obfs?","obfsparam":"?obfsparam?","remarks_base64":"?remarks_base64?","group":"?group?","enable":true,"udp_over_tcp":false})";
 std::string config_ssr_libev = R"({"server":"?server?","server_port":?port?,"protocol":"?protocol?","method":"?method?","obfs":"?obfs?","password":"?password?","obfs_param":"?obfsparam?","protocol_param":"?protoparam?","local_address":"127.0.0.1","local_port":?localport?,"reuse_port":true})";
-std::string base_vmess = R"({"inbounds":[{"port":?localport?,"listen":"127.0.0.1","protocol":"socks","settings":{"udp":true}}],"outbounds":[{"tag":"proxy","protocol":"vmess","settings":{"vnext":[{"address":"?add?","port":?port?,"users":[{"id":"?id?","alterId":?aid?,"email":"t@t.tt","security":"?cipher?"}]}]},"streamSettings":{"network":"?net?","security":"?tls?","tlsSettings":?tlsset?,"tcpSettings":?tcpset?,"wsSettings":?wsset?,"kcpSettings":?kcpset?,"httpSettings":?h2set?,"grpcSettings":?grpcset?,"quicSettings":?quicset?},"mux":{"enabled":false}}],"routing":{"domainStrategy":"IPIfNonMatch"}})";
+std::string base_vmess = R"({"inbounds":[{"port":?localport?,"listen":"127.0.0.1","protocol":"socks","settings":{"udp":true}}],"outbounds":[{"tag":"proxy","protocol":"vmess","settings":{"vnext":[{"address":"?add?","port":?port?,"users":[{"id":"?id?","alterId":?aid?,"email":"t@t.tt","security":"?cipher?"}]}]},"streamSettings":{"network":"?net?","security":"?tls?","tlsSettings":?tlsset?,"tcpSettings":?tcpset?,"wsSettings":?wsset?,"kcpSettings":?kcpset?,"httpSettings":?h2set?,"grpcSettings":?grpcset?,"quicSettings":?quicset?},"mux":{"enabled":false}}],"routing":{"domainStrategy":"IPIfNonMatch","domainMatcher": "linear"
+,"rules": [{"type": "field", "port": "0-65535","outboundTag": "proxy","enabled": true}]}})";
 std::string wsset_vmess = R"({"connectionReuse":true,"path":"?path?","headers":{"Host":"?host?"?edge?}})";
 std::string tcpset_vmess = R"({"connectionReuse":true,"header":{"type":"?type?","request":{"version":"1.1","method":"GET","path":["?path?"],"headers":{"Host":["?host?"],"User-Agent":["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36","Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_2 like Mac OS X) AppleWebKit/601.1 (KHTML, like Gecko) CriOS/53.0.2785.109 Mobile/14A456 Safari/601.1.46"],"Accept-Encoding":["gzip, deflate"],"Connection":["keep-alive"],"Pragma":"no-cache"}}}})";
 std::string tlsset_vmess = R"({"serverName":"?serverName?","allowInsecure":?verify?,"allowInsecureCiphers":true})";
@@ -23,7 +24,7 @@ std::string h2set_vmess = R"({"path":"?path?","host":[?host?]})";
 std::string grpcset_vmess = R"({"serverName":"?serverName?","multiMode":false})";
 std::string quicset_vmess = R"({"security":"?host?","key":"?path?","header":{"type":"?type?"}})";
 std::string base_vless = R"({"inbounds":[{"port":?localport?,"listen":"127.0.0.1","protocol":"socks","settings":{"udp":true}}],"outbounds":[{"tag":"proxy","protocol":"vless","settings":{"vnext":[{"address":"?add?","port":?port?,"users":[{"id":"?id?","alterId":?aid?,"email":"t@t.tt","security":"?cipher?","encryption": "none","flow": "?flow?"}]}]},"streamSettings":{"network":"?net?","security":"?tls?","?tlsSettings?":?tlsset?,"tcpSettings":?tcpset?,"wsSettings":?wsset?,"kcpSettings":?kcpset?,"httpSettings":?h2set?,"quicSettings":?quicset?,"grpcSettings":?grpcset?},"mux":{"enabled":?enabled?,"concurrency": ?concurrency?
-}}],"routing":{"domainStrategy":"IPIfNonMatch"}})";
+}}],"routing":{"domainStrategy":"IPIfNonMatch","domainMatcher": "linear","rules": [{"type": "field", "port": "0-65535","outboundTag": "proxy","enabled": true}]}})";
 std::string wsset_vless = R"({"connectionReuse":true,"path":"?path?","headers":{"Host":"?host?"?edge?}})";
 std::string tcpset_vless = R"({"connectionReuse":true,"header":{"type":"?type?","request":{"version":"1.1","method":"GET","path":["?path?"],"headers":{"Host":["?host?"],"User-Agent":["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36","Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_2 like Mac OS X) AppleWebKit/601.1 (KHTML, like Gecko) CriOS/53.0.2785.109 Mobile/14A456 Safari/601.1.46"],"Accept-Encoding":["gzip, deflate"],"Connection":["keep-alive"],"Pragma":"no-cache"}}}})";
 std::string tlsset_vless = R"({"serverName":"?serverName?","allowInsecure":?verify?})";
@@ -93,6 +94,7 @@ std::string vmessConstruct(const std::string &group, const std::string &remarks,
     base = replace_first(base, "?aid?", aid.empty() ? "0" : aid);
     base = replace_first(base, "?net?", net.empty() ? "tcp" : net);
     base = replace_first(base, "?cipher?", cipher);
+
     switch(hash_(net))
     {
         case "ws"_hash:
@@ -112,7 +114,6 @@ std::string vmessConstruct(const std::string &group, const std::string &remarks,
             break;
         }
         case "h2"_hash:
-        case "http"_hash:
         {
             std::string h2set = h2set_vmess;
             h2set = replace_first(h2set, "?path?", path);
@@ -202,7 +203,6 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
             break;
         }
         case "h2"_hash:
-        case "http"_hash:
         {
             std::string h2set = h2set_vless;
             h2set = replace_first(h2set, "?path?", path);
