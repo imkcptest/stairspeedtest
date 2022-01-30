@@ -189,7 +189,7 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
         {
             std::string wsset = wsset_vless;
             wsset = replace_first(wsset, "?host?", (host.empty() && !isIPv4(add) && !isIPv6(add)) ? add : trim(host));
-            wsset = replace_first(wsset, "?path?", path.empty() ? "/" : path);
+            wsset = replace_first(wsset, "?path?", path.empty() ? "/" : UrlDecode(path));
             wsset = replace_first(wsset, "?edge?", edge.empty() ? "" : ",\"Edge\":\"" + edge + "\"");
             base = replace_first(base, "?wsset?", wsset);
             break;
