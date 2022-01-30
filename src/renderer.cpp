@@ -436,12 +436,12 @@ std::string exportRender(std::string resultpath, std::vector<nodeInfo> &nodes, b
     std::string gentime = "创建时间：" + getTime(3);
     std::string traffic = "流量消耗：" + speedCalc((double)total_traffic) + ". ";
     std::string about = "By Stair Speedtest Reborn " VERSION ".";
-    std::string title = "  品云在线测速 ( " VERSION " )  ";
+    std::string title = "  Stair Speedtest Reborn ( " VERSION " )  ";
     //SSRSpeed style
     if(export_as_ssrspeed)
     {
         traffic += "测速耗时：" + secondToString(test_duration) + ". 在线节点数：[" + std::to_string(onlines) + "/" + std::to_string(node_count) + "]";
-        title = "  品云在线测速 ( " VERSION " )  ";
+        title = "  Stair Speedtest Reborn ( " VERSION " )  ";
     }
     else
     {
