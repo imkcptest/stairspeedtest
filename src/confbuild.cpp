@@ -162,7 +162,6 @@ std::string vmessConstruct(const std::string &group, const std::string &remarks,
     base = replace_first(base, "?tcpset?", "null");
     base = replace_first(base, "?wsset?", "null");
     base = replace_first(base, "?tlsset?", "null");
-    base = replace_first(base, "?xtlsset?", "null");
     base = replace_first(base, "?kcpset?", "null");
     base = replace_first(base, "?h2set?", "null");
     base = replace_first(base, "?grpcset?", "null");
@@ -245,7 +244,7 @@ std::string vlessConstruct(const std::string &group, const std::string &remarks,
         std::string tlsset = tlsset_vless;
         tlsset = replace_first(tlsset, "?serverName?", !sni.empty() ? sni : host);
         scv.define(true);
-        tlsset = replace_first(tlsset, "?verify?", scv ? "true" : "false");
+        tlsset = replace_first(tlsset, "?verify?", net == "grpc" ? "false" : scv ? "true" : "false");
         base = replace_first(base, "?tlsset?", tlsset);
     }
 
