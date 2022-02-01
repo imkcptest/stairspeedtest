@@ -566,8 +566,10 @@ int sitePing(nodeInfo &node, std::string localaddr, int localport, std::string u
     std::string host, uri;
     int port = 0, rawSitePing[10] = {};
     bool useTLS = false;
+    if (node.network == "grpc")
+        target = "https://www.google.com";
     urlParse(target, host, uri, port, useTLS);
-    std::string request = "GET " + uri + " HTTP/1.1\r\n"
+    std::string request = "GET " + uri + node.network == "grpc" ? " HTTP/2\r\n" :" HTTP/1.1\r\n"
                           "Host: " + host + "\r\n"
                           "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36\r\n\r\n";
 

@@ -1257,6 +1257,7 @@ void explodeStdVless(std::string vless, const std::string &custom_port, nodeInfo
     node.remarks = remarks;
     node.server = add;
     node.port = to_int(port, 0);
+    node.network = net;
     node.proxyStr = vlessConstruct(node.group, remarks, add, port, type, id, aid, net, "auto", flow, sni, mode, path, host, "", tls);
     return;
 }
