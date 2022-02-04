@@ -29,7 +29,7 @@ std::string tcpset_vless = R"({"connectionReuse":true,"header":{"type":"?type?",
 std::string tlsset_vless = R"({"serverName":"?serverName?","allowInsecure":?verify?})";
 std::string kcpset_vless = R"({"mtu":1350,"tti":50,"uplinkCapacity":12,"downlinkCapacity":100,"congestion":false,"readBufferSize":2,"writeBufferSize":2,"header":{"type":"?type?"}})";
 std::string h2set_vless = R"({"path":"?path?","host":[?host?]})";
-std::string grpcset_vless = R"({"serverName":"?serverName?","multiMode":?multiMode?})";
+std::string grpcset_vless = R"({"serviceName":"?serverName?","multiMode":?multiMode?})";
 std::string quicset_vless = R"({"security":"?host?","key":"?path?","header":{"type":"?type?"}})";
 std::string base_trojan = R"({"run_type":"client","local_addr":"127.0.0.1","local_port":?localport?,"remote_addr":"?server?","remote_port":?port?,"password":["?password?"],"ssl":{"verify":?verify?,"verify_hostname":?verifyhost?,"sni":"?host?"},"tcp":{"reuse_port":true}})";
 
